@@ -20,6 +20,8 @@ namespace QLearning
         {
             containerRegistry.Register<ICanvasHelper, CanvasHelper>();
             containerRegistry.Register<IQTableHelper, QTableHelper>();
+            containerRegistry.Register<IColorHelper, ColorHelper>();
+            containerRegistry.Register<IRewardHelper, RewardHelper>();
         }
 
         protected override Window CreateShell()

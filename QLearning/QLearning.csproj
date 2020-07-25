@@ -92,14 +92,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Abstractions\ICanvasHelper.cs" />
+    <Compile Include="Abstractions\IColorHelper.cs" />
     <Compile Include="Abstractions\IQTableHelper.cs" />
+    <Compile Include="Abstractions\IRewardHelper.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Helpers\CanvasHelper.cs" />
+    <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\QTableHelper.cs" />
+    <Compile Include="Helpers\RewardHelper.cs" />
     <Compile Include="Models\Square.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
