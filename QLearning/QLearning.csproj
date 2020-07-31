@@ -38,6 +38,9 @@
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net47\CommonServiceLocator.dll</HintPath>
     </Reference>
+    <Reference Include="MoreLinq, Version=3.3.2.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.3.3.2\lib\net451\MoreLinq.dll</HintPath>
+    </Reference>
     <Reference Include="Prism, Version=7.2.0.1422, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.7.2.0.1422\lib\net45\Prism.dll</HintPath>
     </Reference>
@@ -93,18 +96,32 @@
     </Page>
     <Compile Include="Abstractions\ICanvasHelper.cs" />
     <Compile Include="Abstractions\IColorHelper.cs" />
-    <Compile Include="Abstractions\IQTableHelper.cs" />
+    <Compile Include="Abstractions\IQLearning.cs" />
+    <Compile Include="Abstractions\IQLearningHandler.cs" />
     <Compile Include="Abstractions\IRewardHelper.cs" />
+    <Compile Include="Abstractions\IStateHelper.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\ReverseBooleanConverter.cs" />
+    <Compile Include="Converters\ReverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Enums\Direction.cs" />
+    <Compile Include="Extensions\SquareListExtensions.cs" />
+    <Compile Include="Extensions\StateListExtensions.cs" />
+    <Compile Include="Handlers\QLearningHandler.cs" />
     <Compile Include="Helpers\CanvasHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
-    <Compile Include="Helpers\QTableHelper.cs" />
     <Compile Include="Helpers\RewardHelper.cs" />
+    <Compile Include="Helpers\StateHelper.cs" />
+    <Compile Include="Messages\SetInitialStateMessage.cs" />
+    <Compile Include="Messages\SetQTableMessage.cs" />
+    <Compile Include="Messages\StopTimerMessage.cs" />
+    <Compile Include="Messages\UpdateEpisodesMessage.cs" />
+    <Compile Include="Models\QLine.cs" />
     <Compile Include="Models\Square.cs" />
+    <Compile Include="Models\State.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -141,5 +158,6 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\q.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

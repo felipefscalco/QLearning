@@ -1,12 +1,16 @@
 ﻿using QLearning.Abstractions;
 using QLearning.Enums;
+using QLearning.Extensions;
+using QLearning.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace QLearning.Helpers
 {
-    public class QTableHelper : IQTableHelper
+    public class StateHelper : IStateHelper
     {
-        private readonly int[,] MatrixStates = 
+        private readonly int[,] MatrixStates =
         {
             {5, 4, 3, 2, 1},
             {6, 7, 8, 9, 10},
@@ -20,23 +24,53 @@ namespace QLearning.Helpers
             {46, 47, 48, 49, 50}
         };
 
-        public Dictionary<string, List<Direction>> States { get; }
+        private readonly List<State> States;
 
-        public QTableHelper()
+        public StateHelper()
         {
             States = InitializeStatesAndPossibleDirections();
         }
 
-        public KeyValuePair<string, List<Direction>> GetStateByMatrixCoordinate(int row, int column)
+        public State GetNextStateByDirection(int row, int column, Direction direction)
         {
-            var state = MatrixStates[row, column].ToString();
-            var possibleDirections = States[state];
-            return new KeyValuePair<string, List<Direction>>(state, possibleDirections);
+            int state;
+
+            switch (direction)
+            {
+                case Direction.North:
+                    state = MatrixStates[row, column - 1];
+                    return States.GetStateById(state);
+
+                case Direction.South:
+                    state = MatrixStates[row, column + 1];
+                    return States.GetStateById(state);
+
+                case Direction.West:
+                    state = MatrixStates[row - 1, column];
+                    return States.GetStateById(state);
+
+                case Direction.East:
+                    state = MatrixStates[row + 1, column];
+                    return States.GetStateById(state);
+
+                default:
+                    throw new ArgumentException("Not a possible move.");
+            }
         }
 
-        private Dictionary<string, List<Direction>> InitializeStatesAndPossibleDirections()
+        public State GetStateByMatrixCoordinates(int row, int column)
         {
-            var states = new Dictionary<string, List<Direction>>();
+            var state = MatrixStates[row, column];
+
+            return States.FirstOrDefault(s => s.Id.Equals(state));
+        }
+
+        public List<State> GetStatesAndPossibleDirections()
+            => States;
+
+        private List<State> InitializeStatesAndPossibleDirections()
+        {
+            var states = new List<State>();
 
             for (int i = 0; i < 10; i++)
             {
@@ -52,7 +86,8 @@ namespace QLearning.Helpers
                             Direction.East
                         };
 
-                        states.Add($"{MatrixStates[i, j]}", directions);
+                        var stateId = MatrixStates[i, j];
+                        states.Add(new State(stateId, directions));
                     }
                     else if (CanGoSouthWestEast(i, j))
                     {
@@ -63,7 +98,8 @@ namespace QLearning.Helpers
                             Direction.East
                         };
 
-                        states.Add($"{MatrixStates[i, j]}", directions);
+                        var stateId = MatrixStates[i, j];
+                        states.Add(new State(stateId, directions));
                     }
                     else if (CanGoNorthEastWest(i, j))
                     {
@@ -74,7 +110,8 @@ namespace QLearning.Helpers
                             Direction.West
                         };
 
-                        states.Add($"{MatrixStates[i, j]}", directions);
+                        var stateId = MatrixStates[i, j];
+                        states.Add(new State(stateId, directions));
                     }
                     else if (CanGoNorthSouthEast(i, j))
                     {
@@ -85,7 +122,8 @@ namespace QLearning.Helpers
                             Direction.East
                         };
 
-                        states.Add($"{MatrixStates[i, j]}", directions);
+                        var stateId = MatrixStates[i, j];
+                        states.Add(new State(stateId, directions));
                     }
                     else if (CanGoNorthSouthWest(i, j))
                     {
@@ -96,7 +134,8 @@ namespace QLearning.Helpers
                             Direction.West
                         };
 
-                        states.Add($"{MatrixStates[i, j]}", directions);
+                        var stateId = MatrixStates[i, j];
+                        states.Add(new State(stateId, directions));
                     }
                     else
                     {
@@ -108,7 +147,8 @@ namespace QLearning.Helpers
                                 Direction.East
                             };
 
-                            states.Add($"{MatrixStates[i, j]}", directions);
+                            var stateId = MatrixStates[i, j];
+                            states.Add(new State(stateId, directions));
                         }
                         else if (CanGoNorthEast(i, j))
                         {
@@ -118,7 +158,8 @@ namespace QLearning.Helpers
                                 Direction.East
                             };
 
-                            states.Add($"{MatrixStates[i, j]}", directions);
+                            var stateId = MatrixStates[i, j];
+                            states.Add(new State(stateId, directions));
                         }
                         else if (CanGoSouthWest(i, j))
                         {
@@ -128,7 +169,8 @@ namespace QLearning.Helpers
                                 Direction.West,
                             };
 
-                            states.Add($"{MatrixStates[i, j]}", directions);
+                            var stateId = MatrixStates[i, j];
+                            states.Add(new State(stateId, directions));
                         }
                         else if (IsFinalState(i, j))
                         {
@@ -137,7 +179,8 @@ namespace QLearning.Helpers
                                 Direction.None
                             };
 
-                            states.Add($"{MatrixStates[i, j]}", directions);
+                            var stateId = MatrixStates[i, j];
+                            states.Add(new State(stateId, directions));
                         }
                     }
                 }

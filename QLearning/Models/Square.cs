@@ -1,27 +1,52 @@
-﻿using QLearning.Enums;
-using System.Collections.Generic;
+﻿using Prism.Mvvm;
+using System.Windows;
 using System.Windows.Media;
 
 namespace QLearning.Models
 {
-    public class Square
+    public class Square : BindableBase
     {
-        public double X { get; set; }
+        private Brush _color;
 
-        public double Y { get; set; }
+        public int X { get; }
 
-        public double Width { get; set; }
+        public int Y { get; }
 
-        public double Height { get; set; }
+        public int Width { get; }
 
-        public Brush Color { get; set; }
+        public int Height { get; }
 
-        public string State { get; set; }
+        public Brush Color
+        {
+            get => _color;
+            private set => SetProperty(ref _color, value);
+        }
 
-        public List<Direction> PossibleDirections { get; set; }
+        public double Reward { get; }
 
-        public double Reward { get; set; }
+        public State State { get; }
 
-        public int IndexAtList { get; set; }
+        public Square(int x, int y, int width, int height, Brush color, double reward, State state)
+        {
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
+            Color = color;
+            Reward = reward;
+            State = state;
+        }
+
+        public void SetColor(Brush color)
+        {
+            Color = color;
+            Color.Freeze();
+        }
+
+        public int GetRow()
+            => X / Height;
+
+        public int GetColumn()
+            => Y / Width;
     }
 }

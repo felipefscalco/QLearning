@@ -5,5 +5,6 @@ namespace QLearning.Abstractions
     public interface IColorHelper
     {
         SolidColorBrush GetColor(int state);
+        SolidColorBrush GetRedColor();
     }
 }

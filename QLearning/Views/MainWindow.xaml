@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:QLearning.Converters"
         mc:Ignorable="d"
         Title="Learning" 
         Icon="../Resources/Icons/q.png"
-        Height="450" 
-        Width="800"
+        Height="405" 
+        Width="920"
         WindowStartupLocation="CenterScreen"
         UseLayoutRounding="True"
         Background="LightGray"
@@ -17,12 +18,22 @@
     
     <Grid Margin="2">
         
-        <Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+                <converters:ReverseBooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter" />
+                <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter" />
+            </ResourceDictionary>
+        </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="650"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="325"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
         </Grid.RowDefinitions>
 
         <ItemsControl Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Squares}">
@@ -44,7 +55,7 @@
                 <DataTemplate>
                     <Border BorderThickness="1" BorderBrush="White">
                         <Border Width="{Binding Width}" Height="{Binding Height}" Background="{Binding Color}">
-                            <TextBlock Text="{Binding State}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Foreground="White"/>
+                            <TextBlock Text="{Binding State.Id}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Foreground="White"/>
                         </Border>                        
                     </Border>
                 </DataTemplate>
@@ -52,6 +63,70 @@
             
         </ItemsControl>
 
+        <ListView Grid.Row="0" Grid.Column="1" Margin="4, 0, 0, 0"
+                  ItemsSource="{Binding QTable}"
+                  SelectionMode="Single">
+            
+            <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            
+            <ListView.View>
+                    <GridView AllowsColumnReorder="False">
+                        <GridView.Columns >
+
+                            <GridViewColumn Header="State" Width="50" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding State}" HorizontalAlignment="Center"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Direction" Width="85" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Direction}" HorizontalAlignment="Center"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Reward" Width="81" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Reward}" HorizontalAlignment="Center"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            
+        </ListView>
+
+        <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0, 4, 0, 0">
+            <Button Width="70" Content="Start" Background="GhostWhite" Margin="2" Command="{Binding StartCommand}" IsEnabled="{Binding IsRunning, Converter={StaticResource ReverseBooleanConverter}}" Visibility="{Binding BestPathFound, Converter={StaticResource ReverseBooleanToVisibilityConverter}}"></Button>
+            <Button Width="70" Content="Reset" Background="GhostWhite" Margin="2" Panel.ZIndex="2" Command="{Binding ResetCommand}" Visibility="{Binding BestPathFound, Converter={StaticResource BooleanToVisibilityConverter}}"></Button>
+            <Button Width="70" Content="Stop" Background="GhostWhite" Margin="2" Command="{Binding StopCommand}" IsEnabled="{Binding IsRunning}"></Button>
+            <Button Width="70" Content="Best path" Background="GhostWhite" Margin="2" Command="{Binding BestPathCommand}" IsEnabled="{Binding BestPathFound}"></Button>
+
+            <Label Content="Learning speed" VerticalAlignment="Center" Margin="10, 0, 0, 0"></Label>
+            <Slider Value="{Binding IterationSpeed}" Minimum="100" Maximum="1000" Width="100" VerticalAlignment="Center" IsEnabled="{Binding IsRunning, Converter={StaticResource ReverseBooleanConverter}}"></Slider>
+            <Label Content="{Binding IterationSpeed}" VerticalAlignment="Center"></Label>
+            
+            <Label Content="Episodes:" Margin="80, 0, 0, 0" VerticalAlignment="Center" ></Label>
+            <Label Content="{Binding Episodes}" VerticalAlignment="Center"></Label>
+            
+            <Label Content="Steps made:" Margin="18, 0, 0, 0" VerticalAlignment="Center"></Label>
+            <Label Content="{Binding StepsMade}" VerticalAlignment="Center"></Label>
+            
+            <Label Content="Time elapsed:" VerticalAlignment="Center" Margin="18, 0, 0, 0"></Label>
+            <Label Content="{Binding TimeElapsedString}" VerticalAlignment="Center"></Label>
+
+        </DockPanel>
     </Grid>
     
 </Window>
