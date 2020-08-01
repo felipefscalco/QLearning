@@ -8,12 +8,13 @@ namespace QLearning.Helpers
         private const string HexBlueColor = "#FF32B4FF";
         private const string HexGreenColor = "#FF00DC2D";
         private const string HexBlackColor = "#FF0A0A0A";
+        private const int InitialState = 1;
 
         public double GetReward(SolidColorBrush color, int state)
         {
             if (IsGreenColor(color))
             {
-                if (state == 1) // initial state
+                if (state == InitialState)
                     return -10;
 
                 return 100;

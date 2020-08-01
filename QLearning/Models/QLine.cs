@@ -19,7 +19,7 @@ namespace QLearning.Models
         public double Reward
         {
             get => _reward;
-            set => SetProperty(ref _reward, Math.Round(value,2));
+            set => SetProperty(ref _reward, Math.Round(value, 4));
         }
 
         public int State

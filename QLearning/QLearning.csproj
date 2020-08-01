@@ -96,7 +96,6 @@
     </Page>
     <Compile Include="Abstractions\ICanvasHelper.cs" />
     <Compile Include="Abstractions\IColorHelper.cs" />
-    <Compile Include="Abstractions\IQLearning.cs" />
     <Compile Include="Abstractions\IQLearningHandler.cs" />
     <Compile Include="Abstractions\IRewardHelper.cs" />
     <Compile Include="Abstractions\IStateHelper.cs" />

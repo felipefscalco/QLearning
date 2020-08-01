@@ -17,13 +17,14 @@ namespace QLearning
 
             ViewModelLocationProvider.Register<MainWindow, MainWindowViewModel>();
         }
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register<ICanvasHelper, CanvasHelper>();
-            containerRegistry.Register<IStateHelper, StateHelper>();
-            containerRegistry.Register<IColorHelper, ColorHelper>();
-            containerRegistry.Register<IRewardHelper, RewardHelper>();
-            containerRegistry.Register<IQLearningHandler, QLearningHandler>();
+            containerRegistry.RegisterSingleton<ICanvasHelper, CanvasHelper>();
+            containerRegistry.RegisterSingleton<IStateHelper, StateHelper>();
+            containerRegistry.RegisterSingleton<IColorHelper, ColorHelper>();
+            containerRegistry.RegisterSingleton<IRewardHelper, RewardHelper>();
+            containerRegistry.RegisterSingleton<IQLearningHandler, QLearningHandler>();
         }
 
         protected override Window CreateShell()
